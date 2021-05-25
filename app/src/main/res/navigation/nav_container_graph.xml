@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_container_graph"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/allMatchesFragment">
+
+    <fragment
+        android:id="@+id/allMatchesFragment"
+        android:name="com.example.taskdl.AllMatchesFragment"
+        android:label="@string/nav_all_matches"
+        tools:layout="@layout/fragment_all_matches" />
+
+    <fragment
+        android:id="@+id/savedMatchesFragment"
+        android:name="com.example.taskdl.SavedMatchesFragment"
+        android:label="@string/nav_saved_matches"
+        tools:layout="@layout/fragment_saved_matches" />
+
+</navigation>

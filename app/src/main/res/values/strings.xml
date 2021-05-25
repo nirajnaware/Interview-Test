@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">TaskDL</string>
+
+
+    <string name="nav_home">Home Fragment</string>
+    <string name="nav_all_matches">All Matches</string>
+    <string name="nav_saved_matches">Saved Matches</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="inactive_employee">Inactive Employee</string>
+    <string name="alert_msg">Do you wanna Inactive Employee?</string>
+    <string name="alert_title">Confirmation Dialog</string>
+</resources>
