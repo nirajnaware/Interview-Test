@@ -24,7 +24,7 @@ import com.example.taskdl.view_model.ViewModelFactory
 
 class SavedMatchesFragment : Fragment() {
 
-    var mAdapter: AllMatchesAdapter? = AllMatchesAdapter()
+    //var mAdapter: AllMatchesAdapter? = AllMatchesAdapter()
     var layoutBinding: FragmentSavedMatchesBinding? = null
     var matchesViewModel: MatchesViewModel? = null
 
@@ -56,13 +56,41 @@ class SavedMatchesFragment : Fragment() {
 
     private fun setObservers() {
         matchesViewModel?.apply {
-            getEmp(requireContext())
+            getSavedEmp(requireContext())
 
-            matchesResponseModelListLiveData.observe(viewLifecycleOwner, Observer {
-                it?.let {
-                    setAdapter(it)
-                }
-            })
+            layoutBinding?.apply {
+                matchesResponseModelListLiveData.observe(viewLifecycleOwner, Observer {
+                    it?.let {
+                        when (it.status) {
+                            Status.SUCCESS -> {
+                                if (it.data?.isNotEmpty() == true) {
+                                    setAdapter(it.data)
+                                    layoutNoData.clNoData.visibility = View.GONE
+                                    layoutNoInternet.clNoInternet.visibility = View.GONE
+                                    layoutError.clSomethingWentWrong.visibility = View.GONE
+                                } else {
+                                    layoutNoData.clNoData.visibility = View.VISIBLE
+                                    layoutNoData.tvMessage.text = keyNoDataException
+                                    rvList.visibility = View.GONE
+                                }
+                            }
+                            Status.ERROR -> {
+                                if (keyNoInternetException == it.message) {
+                                    layoutNoInternet.clNoInternet.visibility = View.VISIBLE
+                                    layoutNoInternet.tvNoInternetMsg.text = keyNoInternetException
+                                    rvList.visibility = View.GONE
+                                } else {
+                                    layoutError.clSomethingWentWrong.visibility = View.VISIBLE
+                                    layoutError.tvMessage.text = keyAPIException
+                                    rvList.visibility = View.GONE
+                                }
+                            }
+                            Status.LOADING -> {
+                            }
+                        }
+                    }
+                })
+            }
 
             /*
             * Observe , when click on star , to inactive
@@ -79,10 +107,11 @@ class SavedMatchesFragment : Fragment() {
     private fun setAdapter(matchesResponseList: List<MatchesResponseModel>) {
         layoutBinding?.apply {
             rvList?.apply {
+                val mAdapter = AllMatchesAdapter()
                 layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-                mAdapter?.list = matchesResponseList
-                mAdapter?.viewModel = matchesViewModel
-                mAdapter?.pageType = keySavedEmp
+                mAdapter.list = matchesResponseList
+                mAdapter.viewModel = matchesViewModel
+                mAdapter.pageType = keySavedEmp
                 adapter = mAdapter
             }
         }
@@ -96,7 +125,7 @@ class SavedMatchesFragment : Fragment() {
                 getString(R.string.nav_saved_matches),
                 false
             )
-        }catch (e: Exception) {
+        } catch (e: Exception) {
             e.printStackTrace()
         }
     }
@@ -110,8 +139,9 @@ class SavedMatchesFragment : Fragment() {
         ) { _, _ ->
 
             AppDb.getInstance(requireContext()).empResponseDao().apply {
-                updateEmpById(false, it.id?:0)
-                mAdapter?.updateCardAtPosition(R.drawable.ic_inactive, matchesViewModel?.cardPosition?:-1)
+                updateEmpById(false, it.id ?: 0)
+                //mAdapter?.updateCardAtPosition(R.drawable.ic_inactive, matchesViewModel?.cardPosition?:-1)
+                matchesViewModel?.getSavedEmp(requireContext())
             }
 
             Toast.makeText(requireContext(), R.string.inactive_employee, Toast.LENGTH_LONG).show()
@@ -125,7 +155,6 @@ class SavedMatchesFragment : Fragment() {
         alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.BLACK)
         alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK)
     }
-
 
 
 }

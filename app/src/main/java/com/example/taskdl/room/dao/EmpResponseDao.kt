@@ -10,6 +10,9 @@ abstract class EmpResponseDao : BaseDao<MatchesResponseModel>{
     @Query("SELECT * FROM MatchesResponseModel")
     abstract fun getAllEmp(): List<MatchesResponseModel>
 
+    @Query("SELECT * FROM MatchesResponseModel WHERE status = :status")
+    abstract fun getActiveEmp(status: Boolean): List<MatchesResponseModel>
+
     @Query("DELETE FROM MatchesResponseModel")
     abstract fun deleteAllEmp()
 

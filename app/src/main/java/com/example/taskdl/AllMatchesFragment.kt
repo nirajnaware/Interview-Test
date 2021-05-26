@@ -18,8 +18,7 @@ import com.example.taskdl.view_model.ViewModelFactory
 import com.example.taskdl.databinding.FragmentAllMatchesBinding
 import com.example.taskdl.model.MatchesResponseModel
 import com.example.taskdl.room.db.AppDb
-import com.example.taskdl.utils.OnFragmentTitleChangeListener
-import com.example.taskdl.utils.keyAllEmp
+import com.example.taskdl.utils.*
 
 
 class AllMatchesFragment : Fragment() {
@@ -53,32 +52,61 @@ class AllMatchesFragment : Fragment() {
     }
 
     private fun setobservers() {
-        matchesViewModel?.apply {
+        layoutBinding?.apply {
+            matchesViewModel?.apply {
 
-            getEmp(requireContext())
+                getEmp(requireContext())
 
-            matchesResponseModelListLiveData.observe(viewLifecycleOwner, Observer {
-                it?.let {
-                    setAdapter(it)
-                }
-            })
-
-            /*
-            * Observe , when click on star
-            * */
-            onClickStarLiveData.observe(viewLifecycleOwner, Observer {
-                it?.let {
-                    AppDb.getInstance(requireContext()).empResponseDao().apply {
-                        Log.i("nituuu","true")
-                        updateEmpById(true, it?.id?:0)
-                        //mAdapter?.notifyDataSetChanged()
-                        //getEmp(requireContext())
-                        mAdapter?.updateCardAtPosition(R.drawable.ic_active, cardPosition)
+                matchesResponseModelListLiveData.observe(viewLifecycleOwner, Observer {
+                    it?.let {
+                        when (it.status) {
+                            Status.SUCCESS -> {
+                                if (it.data?.isNotEmpty() == true) {
+                                    setAdapter(it.data)
+                                    layoutNoData.clNoData.visibility = View.GONE
+                                    layoutNoInternet.clNoInternet.visibility = View.GONE
+                                    layoutError.clSomethingWentWrong.visibility = View.GONE
+                                } else {
+                                    layoutNoData.clNoData.visibility = View.VISIBLE
+                                    layoutNoData.tvMessage.text = keyNoDataException
+                                }
+                            }
+                            Status.ERROR -> {
+                                if (keyNoInternetException == it.message) {
+                                    layoutNoInternet.clNoInternet.visibility = View.VISIBLE
+                                    layoutNoInternet.tvNoInternetMsg.text = keyNoInternetException
+                                } else {
+                                    layoutError.clSomethingWentWrong.visibility = View.VISIBLE
+                                    layoutError.tvMessage.text = keyAPIException
+                                }
+                            }
+                            Status.LOADING -> {
+                            }
+                        }
                     }
-                    onClickStarLiveData.value = null
-                }
-            })
+                })
 
+                /*
+                * Observe , when click on star
+                * */
+                onClickStarLiveData.observe(viewLifecycleOwner, Observer {
+                    it?.let {
+                        AppDb.getInstance(requireContext()).empResponseDao().apply {
+                            Log.i("nituuu", "true")
+                            updateEmpById(true, it?.id ?: 0)
+                            //mAdapter?.notifyDataSetChanged()
+                            //getEmp(requireContext())
+                            mAdapter?.updateCardAtPosition(R.drawable.ic_active, cardPosition)
+                        }
+                        onClickStarLiveData.value = null
+                    }
+                })
+
+            }
+
+            layoutNoInternet.btnTryAgain.setOnClickListener {
+                matchesViewModel?.getEmp(requireContext())
+            }
         }
     }
 
@@ -101,7 +129,7 @@ class AllMatchesFragment : Fragment() {
                 getString(R.string.nav_all_matches),
                 false
             )
-        }catch (e: Exception) {
+        } catch (e: Exception) {
             e.printStackTrace()
         }
     }
