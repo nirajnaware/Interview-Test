@@ -1,36 +1,34 @@
 package com.example.taskdl.adapter
 
-import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.taskdl.model.MatchesResponseModel
+import com.example.taskdl.model.EmployeesResponseModel
 import com.example.taskdl.R
 import com.example.taskdl.databinding.CardItemBinding
-import com.example.taskdl.view_model.MatchesViewModel
+import com.example.taskdl.view_model.EmployeesViewModel
 
-class AllMatchesAdapter : RecyclerView.Adapter<AllMatchesAdapter.AllMatchesViewHolder>() {
+class EmployeesAdapter : RecyclerView.Adapter<EmployeesAdapter.EmployeesViewHolder>() {
 
-    var list: List<MatchesResponseModel> ? = null
-    var viewModel: MatchesViewModel? = null
+    var list: List<EmployeesResponseModel> ? = null
+    var viewModel: EmployeesViewModel? = null
     var pageType: String? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AllMatchesViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EmployeesViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.card_item, parent, false)
-        return AllMatchesViewHolder(view)
+        return EmployeesViewHolder(view)
     }
 
     override fun getItemCount(): Int {
         return list?.size?:0
     }
 
-    override fun onBindViewHolder(holder: AllMatchesViewHolder, position: Int) {
-        val matchesResponseModel: MatchesResponseModel = list?.get(position) ?: MatchesResponseModel()
-        holder.bind(matchesResponseModel,position)
+    override fun onBindViewHolder(holder: EmployeesViewHolder, position: Int) {
+        val employeesResponseModel: EmployeesResponseModel = list?.get(position) ?: EmployeesResponseModel()
+        holder.bind(employeesResponseModel,position)
     }
 
     /*class AllMatchesViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
@@ -52,7 +50,7 @@ class AllMatchesAdapter : RecyclerView.Adapter<AllMatchesAdapter.AllMatchesViewH
     }
 
 
-    inner class AllMatchesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class EmployeesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         var cardItemBinding: CardItemBinding? = null
 
@@ -60,14 +58,8 @@ class AllMatchesAdapter : RecyclerView.Adapter<AllMatchesAdapter.AllMatchesViewH
             cardItemBinding = DataBindingUtil.bind(itemView)
         }
 
-        fun bind(userCityMapModel: MatchesResponseModel, position: Int) {
+        fun bind(userCityMapModel: EmployeesResponseModel, position: Int) {
             cardItemBinding?.apply {
-
-
-                /*if (userCityMapModel.status)
-                    ivActive.setBackgroundResource(R.drawable.ic_active)
-                else
-                    ivActive.setBackgroundResource(R.drawable.ic_inactive)*/
 
                 if (userCityMapModel.status)
                     userCityMapModel.statusDrawable = R.drawable.ic_active
@@ -76,12 +68,8 @@ class AllMatchesAdapter : RecyclerView.Adapter<AllMatchesAdapter.AllMatchesViewH
 
                 this.matchesResponseModel = userCityMapModel
                 this.matchesViewModel = viewModel
-                this.pageType = this@AllMatchesAdapter.pageType
+                this.pageType = this@EmployeesAdapter.pageType
                 this.position = adapterPosition
-
-
-                Log.i("userCityMapModel",userCityMapModel.employee_name+" "+userCityMapModel.id +" "+ userCityMapModel.status)
-
             }
         }
     }

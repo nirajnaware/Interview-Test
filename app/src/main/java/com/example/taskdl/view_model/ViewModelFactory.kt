@@ -9,10 +9,9 @@ class ViewModelFactory(private val apiService: ApiService) :
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
 
-        if (modelClass.isAssignableFrom(MatchesViewModel::class.java)) {
-            return MatchesViewModel(apiService) as T
+        if (modelClass.isAssignableFrom(EmployeesViewModel::class.java)) {
+            return EmployeesViewModel(apiService) as T
         }
         throw IllegalArgumentException("Unknown class name")
     }
-
 }

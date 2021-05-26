@@ -6,11 +6,11 @@
 
         <variable
             name="matchesResponseModel"
-            type="com.example.taskdl.model.MatchesResponseModel" />
+            type="com.example.taskdl.model.EmployeesResponseModel" />
 
         <variable
             name="matchesViewModel"
-            type="com.example.taskdl.view_model.MatchesViewModel" />
+            type="com.example.taskdl.view_model.EmployeesViewModel" />
 
         <variable
             name="pageType"

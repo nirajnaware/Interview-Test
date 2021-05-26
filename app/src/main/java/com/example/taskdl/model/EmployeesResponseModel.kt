@@ -9,7 +9,7 @@ import com.example.taskdl.BR
 import com.example.taskdl.R
 
 @Entity
-class MatchesResponseModel : BaseObservable(){
+class EmployeesResponseModel : BaseObservable(){
 
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0

@@ -13,20 +13,20 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.taskdl.adapter.AllMatchesAdapter
-import com.example.taskdl.databinding.FragmentSavedMatchesBinding
-import com.example.taskdl.model.MatchesResponseModel
+import com.example.taskdl.adapter.EmployeesAdapter
+import com.example.taskdl.databinding.FragmentSavedEmployeesBinding
+import com.example.taskdl.model.EmployeesResponseModel
 import com.example.taskdl.room.db.AppDb
 import com.example.taskdl.utils.*
-import com.example.taskdl.view_model.MatchesViewModel
+import com.example.taskdl.view_model.EmployeesViewModel
 import com.example.taskdl.view_model.ViewModelFactory
 
 
-class SavedMatchesFragment : Fragment() {
+class SavedEmployeesFragment : Fragment() {
 
     //var mAdapter: AllMatchesAdapter? = AllMatchesAdapter()
-    var layoutBinding: FragmentSavedMatchesBinding? = null
-    var matchesViewModel: MatchesViewModel? = null
+    var layoutBinding: FragmentSavedEmployeesBinding? = null
+    var employeesViewModel: EmployeesViewModel? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,17 +35,17 @@ class SavedMatchesFragment : Fragment() {
 
         // Inflate the layout for this fragment
         layoutBinding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_saved_matches, container, false)
+            DataBindingUtil.inflate(inflater, R.layout.fragment_saved_employees, container, false)
 
-        matchesViewModel = ViewModelProviders.of(
+        employeesViewModel = ViewModelProviders.of(
             this,
             ViewModelFactory(
                 RetrofitInitializer().apiService
             )
-        ).get(MatchesViewModel::class.java)
+        ).get(EmployeesViewModel::class.java)
 
         layoutBinding?.apply {
-            lifecycleOwner = this@SavedMatchesFragment
+            lifecycleOwner = this@SavedEmployeesFragment
         }
 
         setObservers()
@@ -55,7 +55,7 @@ class SavedMatchesFragment : Fragment() {
     }
 
     private fun setObservers() {
-        matchesViewModel?.apply {
+        employeesViewModel?.apply {
             getSavedEmp(requireContext())
 
             layoutBinding?.apply {
@@ -104,13 +104,13 @@ class SavedMatchesFragment : Fragment() {
         }
     }
 
-    private fun setAdapter(matchesResponseList: List<MatchesResponseModel>) {
+    private fun setAdapter(employeesResponseList: List<EmployeesResponseModel>) {
         layoutBinding?.apply {
             rvList?.apply {
-                val mAdapter = AllMatchesAdapter()
+                val mAdapter = EmployeesAdapter()
                 layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-                mAdapter.list = matchesResponseList
-                mAdapter.viewModel = matchesViewModel
+                mAdapter.list = employeesResponseList
+                mAdapter.viewModel = employeesViewModel
                 mAdapter.pageType = keySavedEmp
                 adapter = mAdapter
             }
@@ -130,7 +130,7 @@ class SavedMatchesFragment : Fragment() {
         }
     }
 
-    private fun showAlertDialog(it: MatchesResponseModel) {
+    private fun showAlertDialog(it: EmployeesResponseModel) {
         val alertDialog: AlertDialog.Builder = AlertDialog.Builder(requireContext())
         alertDialog.setTitle(R.string.alert_title)
         alertDialog.setMessage(R.string.alert_msg)
@@ -141,7 +141,7 @@ class SavedMatchesFragment : Fragment() {
             AppDb.getInstance(requireContext()).empResponseDao().apply {
                 updateEmpById(false, it.id ?: 0)
                 //mAdapter?.updateCardAtPosition(R.drawable.ic_inactive, matchesViewModel?.cardPosition?:-1)
-                matchesViewModel?.getSavedEmp(requireContext())
+                employeesViewModel?.getSavedEmp(requireContext())
             }
 
             Toast.makeText(requireContext(), R.string.inactive_employee, Toast.LENGTH_LONG).show()

@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.taskdl.R
 import com.example.taskdl.api.ApiService
-import com.example.taskdl.model.MatchesResponseModel
+import com.example.taskdl.model.EmployeesResponseModel
 import com.example.taskdl.room.db.AppDb
 import com.example.taskdl.utils.*
 import kotlinx.coroutines.launch
@@ -15,14 +15,12 @@ import retrofit2.HttpException
 import java.io.IOException
 import java.net.URL
 
-class MatchesViewModel(private val apiService: ApiService) : ViewModel() {
+class EmployeesViewModel(private val apiService: ApiService) : ViewModel() {
 
-    var getUrl: URL? = null
-    var matchesResponseModelList = ArrayList<MatchesResponseModel>()
-    var apiResponse = MutableLiveData<Boolean>().apply { value = null }
+
     var matchesResponseModelListLiveData =
-        MutableLiveData<Resource<List<MatchesResponseModel>>>()
-    var onClickStarLiveData = MutableLiveData<MatchesResponseModel>().apply { value = null }
+        MutableLiveData<Resource<List<EmployeesResponseModel>>>()
+    var onClickStarLiveData = MutableLiveData<EmployeesResponseModel>().apply { value = null }
     var cardPosition: Int = -1
 
     fun getEmp(mContext: Context) {
@@ -31,7 +29,7 @@ class MatchesViewModel(private val apiService: ApiService) : ViewModel() {
             if (this.getAllEmp().isEmpty()) {
                 // delete the data from local db
                 deleteAllEmp()
-                // add the movie into local db
+
                 viewModelScope.launch {
                     try {
                         val res = apiService.getMatches().data
@@ -70,11 +68,9 @@ class MatchesViewModel(private val apiService: ApiService) : ViewModel() {
     }
 
     fun getSavedEmp(mContext: Context) {
-
         AppDb.getInstance(mContext).empResponseDao().apply {
             matchesResponseModelListLiveData.postValue(Resource.success(getActiveEmp(true)))
         }
-
     }
 
     /*
@@ -84,7 +80,7 @@ class MatchesViewModel(private val apiService: ApiService) : ViewModel() {
         view: View,
         position: Int,
         pageType: String,
-        masterModel: MatchesResponseModel
+        masterModel: EmployeesResponseModel
     ) {
         try {
             cardPosition = position

@@ -2,21 +2,21 @@ package com.example.task.room.dao
 
 import androidx.room.Dao
 import androidx.room.Query
-import com.example.taskdl.model.MatchesResponseModel
+import com.example.taskdl.model.EmployeesResponseModel
 
 @Dao
-abstract class EmpResponseDao : BaseDao<MatchesResponseModel>{
+abstract class EmpResponseDao : BaseDao<EmployeesResponseModel>{
 
-    @Query("SELECT * FROM MatchesResponseModel")
-    abstract fun getAllEmp(): List<MatchesResponseModel>
+    @Query("SELECT * FROM EmployeesResponseModel")
+    abstract fun getAllEmp(): List<EmployeesResponseModel>
 
-    @Query("SELECT * FROM MatchesResponseModel WHERE status = :status")
-    abstract fun getActiveEmp(status: Boolean): List<MatchesResponseModel>
+    @Query("SELECT * FROM EmployeesResponseModel WHERE status = :status")
+    abstract fun getActiveEmp(status: Boolean): List<EmployeesResponseModel>
 
-    @Query("DELETE FROM MatchesResponseModel")
+    @Query("DELETE FROM EmployeesResponseModel")
     abstract fun deleteAllEmp()
 
-    @Query("UPDATE MatchesResponseModel SET status = :status WHERE id = :id")
+    @Query("UPDATE EmployeesResponseModel SET status = :status WHERE id = :id")
     abstract fun updateEmpById(
         status: Boolean,
         id: Int

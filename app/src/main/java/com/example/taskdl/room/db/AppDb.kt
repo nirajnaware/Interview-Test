@@ -5,9 +5,9 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.task.room.dao.EmpResponseDao
-import com.example.taskdl.model.MatchesResponseModel
+import com.example.taskdl.model.EmployeesResponseModel
 
-@Database(entities = [MatchesResponseModel::class],version = 1)
+@Database(entities = [EmployeesResponseModel::class],version = 1)
 abstract class AppDb : RoomDatabase() {
 
     abstract fun empResponseDao(): EmpResponseDao

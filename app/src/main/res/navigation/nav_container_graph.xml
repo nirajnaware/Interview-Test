@@ -7,14 +7,14 @@
 
     <fragment
         android:id="@+id/allMatchesFragment"
-        android:name="com.example.taskdl.AllMatchesFragment"
+        android:name="com.example.taskdl.AllEmployeesFragment"
         android:label="@string/nav_all_matches"
-        tools:layout="@layout/fragment_all_matches" />
+        tools:layout="@layout/fragment_all_employees" />
 
     <fragment
         android:id="@+id/savedMatchesFragment"
-        android:name="com.example.taskdl.SavedMatchesFragment"
+        android:name="com.example.taskdl.SavedEmployeesFragment"
         android:label="@string/nav_saved_matches"
-        tools:layout="@layout/fragment_saved_matches" />
+        tools:layout="@layout/fragment_saved_employees" />
 
 </navigation>

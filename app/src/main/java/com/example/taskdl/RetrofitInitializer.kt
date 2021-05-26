@@ -11,8 +11,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 * */
 class RetrofitInitializer {
 
-    //val BASE_URL ="https://api.foursquare.com/"
-    //val BASE_URL ="http://webapptest.classroomplus.in/SalesTracker/test/api/"
     val BASE_URL ="http://dummy.restapiexample.com/api/"
     private fun getRetrofit(): Retrofit {
         return Retrofit.Builder()
@@ -20,7 +18,5 @@ class RetrofitInitializer {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
-
     val apiService: ApiService = getRetrofit().create(ApiService::class.java)
-
 }

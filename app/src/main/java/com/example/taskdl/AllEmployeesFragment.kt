@@ -1,6 +1,5 @@
 package com.example.taskdl
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,20 +11,20 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.taskdl.adapter.AllMatchesAdapter
-import com.example.taskdl.view_model.MatchesViewModel
+import com.example.taskdl.adapter.EmployeesAdapter
+import com.example.taskdl.databinding.FragmentAllEmployeesBinding
+import com.example.taskdl.view_model.EmployeesViewModel
 import com.example.taskdl.view_model.ViewModelFactory
-import com.example.taskdl.databinding.FragmentAllMatchesBinding
-import com.example.taskdl.model.MatchesResponseModel
+import com.example.taskdl.model.EmployeesResponseModel
 import com.example.taskdl.room.db.AppDb
 import com.example.taskdl.utils.*
 
 
-class AllMatchesFragment : Fragment() {
+class AllEmployeesFragment : Fragment() {
 
-    var mAdapter: AllMatchesAdapter? = AllMatchesAdapter()
-    var layoutBinding: FragmentAllMatchesBinding? = null
-    var matchesViewModel: MatchesViewModel? = null
+    var mAdapter: EmployeesAdapter? = EmployeesAdapter()
+    var layoutBinding: FragmentAllEmployeesBinding? = null
+    var employeesViewModel: EmployeesViewModel? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,17 +32,17 @@ class AllMatchesFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         layoutBinding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_all_matches, container, false)
+            DataBindingUtil.inflate(inflater, R.layout.fragment_all_employees, container, false)
 
-        matchesViewModel = ViewModelProviders.of(
-            this@AllMatchesFragment,
+        employeesViewModel = ViewModelProviders.of(
+            this@AllEmployeesFragment,
             ViewModelFactory(
                 RetrofitInitializer().apiService
             )
-        ).get(MatchesViewModel::class.java)
+        ).get(EmployeesViewModel::class.java)
 
         layoutBinding?.apply {
-            lifecycleOwner = this@AllMatchesFragment
+            lifecycleOwner = this@AllEmployeesFragment
         }
 
         setobservers()
@@ -53,7 +52,7 @@ class AllMatchesFragment : Fragment() {
 
     private fun setobservers() {
         layoutBinding?.apply {
-            matchesViewModel?.apply {
+            employeesViewModel?.apply {
 
                 getEmp(requireContext())
 
@@ -105,17 +104,17 @@ class AllMatchesFragment : Fragment() {
             }
 
             layoutNoInternet.btnTryAgain.setOnClickListener {
-                matchesViewModel?.getEmp(requireContext())
+                employeesViewModel?.getEmp(requireContext())
             }
         }
     }
 
-    private fun setAdapter(matchesResponseList: List<MatchesResponseModel>) {
+    private fun setAdapter(employeesResponseList: List<EmployeesResponseModel>) {
         layoutBinding?.apply {
             rvList?.apply {
                 layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-                mAdapter?.list = matchesResponseList
-                mAdapter?.viewModel = matchesViewModel
+                mAdapter?.list = employeesResponseList
+                mAdapter?.viewModel = employeesViewModel
                 mAdapter?.pageType = keyAllEmp
                 adapter = mAdapter
             }
